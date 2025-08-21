@@ -57,7 +57,7 @@ def dashboard_view(request):
     selected_ion_flux = ion_flux[start_range:end_range]
     average_ion_flux = np.mean(threshold_filter(selected_ion_flux))
     n_cycles = count_cycle(selected_ion_flux)
-    predicted_depth = predictive_depth(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles)
+    predicted_depth = n_cycles*predictive_depth(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles)
     
     # Generate images
     actual_depth = generate_etching_profile(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles, data, output_svg_file)

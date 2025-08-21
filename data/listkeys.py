@@ -1,5 +1,6 @@
 import json
 from typing import Set
+import matplotlib.pyplot as plt
 
 def get_all_keys_from_file(file_path: str) -> Set[str]:
     """
@@ -19,20 +20,16 @@ def get_all_keys_from_file(file_path: str) -> Set[str]:
     def _get_keys(data, keys_set):
         """Helper function for recursive traversal."""
         if isinstance(data, dict):
-            for key, value in data.items():
-                keys_set.add(key)
-                print(key)
-                # _get_keys(value, keys_set)
-        # elif isinstance(data, list):
-        #     for item in data:
-        #         _get_keys(item, keys_set)
-                # print(k)
+            for i in range(0, 20):
+                keys_set.append(data[f"4_0.5_3_2_{10*i}"]["depth"]*i)
+            # for key, value in data.items():
+            #     keys_set.add(key)
         return keys_set
 
     try:
         with open(file_path, 'r') as f:
             data = json.load(f)
-            return _get_keys(data, set())
+            return _get_keys(data, keys_set=[])
     except FileNotFoundError:
         print(f"Error: The file at '{file_path}' was not found.")
     except json.JSONDecodeError:
@@ -42,4 +39,6 @@ def get_all_keys_from_file(file_path: str) -> Set[str]:
     
     return set()
 
-get_all_keys_from_file("etching_db.json")
+y = get_all_keys_from_file("etching_db_new.json")
+plt.plot(y)
+plt.show()

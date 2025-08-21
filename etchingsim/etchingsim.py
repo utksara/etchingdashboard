@@ -121,7 +121,7 @@ def generate_etching_profile(etch_ion_flux, etch_neu_flux, dep_ion_flux, dep_neu
     # if p3 or p4 in None : w2 = 1
     create_curve(p1, p2, p1, p2, w1, w2, svg_path)
     d1 = retrieve_curve(2, 0.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)["depth"]
+                        n_cycles, data)["depth"]*n_cycles
     d2 = retrieve_curve(2, 1.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)["depth"]
+                        n_cycles, data)["depth"]*n_cycles
     return d1 * w1 + 2*(1 - w1) * d2

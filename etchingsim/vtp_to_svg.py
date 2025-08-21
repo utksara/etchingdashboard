@@ -212,8 +212,8 @@ def intermediate_points_generation(points1, points2, weight):
     Returns:
         list: List of interpolated points.
     """
-    points1 = smooothing(points1, iterations=10)
-    points2 = smooothing(points2, iterations=10)
+    # points1 = smooothing(points1, iterations=10)
+    # points2 = smooothing(points2, iterations=10)
 
     if (len(points1) < len(points2)):
         temp = points1
@@ -233,7 +233,7 @@ def intermediate_points_generation(points1, points2, weight):
 
     x3, y3 = fft_reconstruct.intermeidate_curve(x1, y1, x2, y2, weight)
     new_points = [(x3[i], y3[i]) for i in range(len(x3))]
-    new_points = smooothing(new_points, iterations=10)
+    new_points = smooothing(new_points, iterations=1)
     return new_points
 
 
