@@ -32,7 +32,13 @@ def dashboard_view(request):
     average_ion_flux = 0.0
     actual_depth = 100
     neutral_particle_flux = request.POST.get('neutral_particle_flux', 500)
-    deposition_flux = request.POST.get('deposition_flux', 0)
+    ion_deposition_flux = 3
+    neu_deposition_flux = 2
+    no_deposition = request.POST.get('no_deposition')
+    
+    if (no_deposition):
+        ion_deposition_flux = 0
+        neu_deposition_flux = 0
     
     start_range = int(request.POST.get('start_range', 1000))
     end_range = int(request.POST.get('end_range', 1200)) #len(ion_flux)))
@@ -51,10 +57,10 @@ def dashboard_view(request):
     selected_ion_flux = ion_flux[start_range:end_range]
     average_ion_flux = np.mean(threshold_filter(selected_ion_flux))
     n_cycles = count_cycle(selected_ion_flux)
-    predicted_depth = predictive_depth(average_ion_flux/1000, float(neutral_particle_flux)/1000, 3, 2, n_cycles)
+    predicted_depth = predictive_depth(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles)
     
     # Generate images
-    actual_depth = generate_etching_profile(average_ion_flux/1000, float(neutral_particle_flux)/1000, 3, 2, n_cycles, data, output_svg_file)
+    actual_depth = generate_etching_profile(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles, data, output_svg_file)
     
     context = {
         'ion_flux': selected_ion_flux.tolist(), # Convert numpy array to list for rendering

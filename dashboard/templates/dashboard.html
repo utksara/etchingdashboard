@@ -66,6 +66,12 @@
                     <label for="neutral_particle_flux">Neutral Particle Flux:</label>
                     <input type="text" id="neutral_particle_flux" name="neutral_particle_flux" value="{{ neutral_particle_flux }}">
                 </div>
+                <div>
+                    <label for="no_deposition">
+                    <input type="checkbox" name="no_deposition" id="no_deposition">
+                    No deposition
+                    </label>
+                </div>
                 <button type="submit">Update</button>
                 <div class="input-group">
                     <p>Average Ion Flux: <strong>{{ average_ion_flux|floatformat:2 }}</strong></p>
