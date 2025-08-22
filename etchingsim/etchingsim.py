@@ -112,16 +112,19 @@ def retrieve_curve(m1, m2, m3, m4, n_cycles, data):
 def generate_etching_profile(etch_ion_flux, etch_neu_flux, dep_ion_flux, dep_neu_flux, n_cycles, data, svg_path):
     w1 = find_weight([2, 4], etch_ion_flux)
     w2 = find_weight([0.5, 1.5], etch_neu_flux)
-    p1 = retrieve_curve(2, 0.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)["points"]
-    p2 = retrieve_curve(4, 0.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)["points"]
-    # p3 = retrieve_curve(4, 0.5, dep_ion_flux, dep_neu_flux, n_cycles, data)["points"]
-    # p4 = retrieve_curve(4, 1.5, dep_ion_flux, dep_neu_flux, n_cycles, data)["points"]
-    # if p3 or p4 in None : w2 = 1
-    create_curve(p1, p2, p1, p2, w1, w2, svg_path)
-    d1 = retrieve_curve(2, 0.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)["depth"]*n_cycles
-    d2 = retrieve_curve(2, 1.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)["depth"]*n_cycles
-    return d1 * w1 + 2*(1 - w1) * d2
+    q1 = retrieve_curve(2, 0.5, dep_ion_flux, dep_neu_flux,
+                        n_cycles, data)
+    q2 = retrieve_curve(4, 0.5, dep_ion_flux, dep_neu_flux,
+                        n_cycles, data)
+    q3 = retrieve_curve(2, 1.5, dep_ion_flux, dep_neu_flux,
+                        n_cycles, data)
+    q4 = retrieve_curve(4, 1.5, dep_ion_flux, dep_neu_flux,
+                        n_cycles, data)
+
+    create_curve(q1["points"], q2["points"], q3["points"],
+                 q4["points"], w1, w2, svg_path)
+    d1 = q1["depth"]*n_cycles
+    d2 = q2["depth"]*n_cycles
+    d3 = q3["depth"]*n_cycles
+    d4 = q4["depth"]*n_cycles
+    return d1 * w1 * w2 + d2 * (1 - w1) * w2 + d3 * (1 - w2) * w1 + d4 * (1 - w1) * (1 - w2)

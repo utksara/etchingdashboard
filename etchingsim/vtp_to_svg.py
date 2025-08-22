@@ -233,7 +233,7 @@ def intermediate_points_generation(points1, points2, weight):
 
     x3, y3 = fft_reconstruct.intermeidate_curve(x1, y1, x2, y2, weight)
     new_points = [(x3[i], y3[i]) for i in range(len(x3))]
-    new_points = smooothing(new_points, iterations=1)
+    new_points = smooothing(new_points, iterations=10)
     return new_points
 
 
@@ -275,10 +275,9 @@ def svg_generation(vtp_file_path, svg_file_path):
 
 def create_curve(p1, p2, p3, p4, w1, w2, svg_path):
     p5 = intermediate_points_generation(p1, p2, w1)
-    # p6 = intermediate_points_generation(p3, p4, w1)
-    # p7 = intermediate_points_generation(p5, p6, w2)
-    # points_to_svg(p7, svg_path)
-    points_to_svg(p5, svg_path)
+    p6 = intermediate_points_generation(p3, p4, w1)
+    p7 = intermediate_points_generation(p5, p6, w2)
+    points_to_svg(p7, svg_path)
 
 
 if __name__ == "__main__":
