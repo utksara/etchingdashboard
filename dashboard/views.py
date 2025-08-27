@@ -35,13 +35,17 @@ def dashboard_view(request):
     ion_deposition_flux = 3
     neu_deposition_flux = 2
     no_deposition = request.POST.get('no_deposition')
+    start_range = int(request.POST.get('start_range', 1000))
+    end_range = int(request.POST.get('end_range', 7000)) #len(ion_flux)))
+    max_limit = 7000
+    etching_limits = [2,4]
     
     if (no_deposition):
         ion_deposition_flux = 0
         neu_deposition_flux = 0
-    
-    start_range = int(request.POST.get('start_range', 1000))
-    end_range = int(request.POST.get('end_range', 1200)) #len(ion_flux)))
+        data = json.load(open("data/etching_only_db.json"))
+        max_limit = start_range + 110
+        etching_limits = [3,4]
     
     #results
     predicted_depth = 100
@@ -57,10 +61,11 @@ def dashboard_view(request):
     selected_ion_flux = ion_flux[start_range:end_range]
     average_ion_flux = np.mean(threshold_filter(selected_ion_flux))
     n_cycles = count_cycle(selected_ion_flux)
-    predicted_depth = n_cycles*predictive_depth(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles)
+    predicted_depth = predictive_depth(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles)
     
     # Generate images
-    actual_depth = generate_etching_profile(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles, data, output_svg_file)
+    callibrated_depth =  60/8539.88
+    actual_depth = callibrated_depth*generate_etching_profile(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles, data, output_svg_file, etching_limits)
     
     context = {
         'ion_flux': selected_ion_flux.tolist(), # Convert numpy array to list for rendering
@@ -72,6 +77,7 @@ def dashboard_view(request):
         'image_path': image_path,
         'actual_depth' : actual_depth,
         'predicted_depth' : predicted_depth,
+        'max_limit' : max_limit
     }
     
     return render(request, 'dashboard.html', context)

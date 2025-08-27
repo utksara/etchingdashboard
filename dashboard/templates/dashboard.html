@@ -58,9 +58,9 @@
                 
                 <div class="input-group">
                     <label for="start_range">Select Range:</label>
-                    <input type="number" id="start_range" name="start_range" min="0" max="2000" value="{{ start_range }}">
+                    <input type="number" id="start_range" name="start_range" min="0" max="7000" value="{{ start_range }}">
                     to
-                    <input type="number" id="end_range" name="end_range" min="0" max="2000" value="{{ end_range }}">
+                    <input type="number" id="end_range" name="end_range" min="0" max="{{ max_limit }}" value="{{ end_range }}">
                 </div>
                 <div class="input-group">
                     <label for="neutral_particle_flux">Neutral Particle Flux:</label>
@@ -84,10 +84,10 @@
                     <p>Total Cycles: <strong>{{ n_cycles|floatformat:0 }}</strong></p>
                 </div>
                 <div class="input-group">
-                    <p>Calc Etching depth: <strong>{{ actual_depth|floatformat:2 }}</strong></p>
+                    <p>Calculated Etching depth (micro m): <strong>{{ actual_depth|floatformat:2 }}</strong></p>
                 </div>
                 <div class="input-group">
-                    <p>Pred Etching depth: <strong>{{ predicted_depth|floatformat:2 }}</strong></p>
+                    <p>Predicted Etching depth (micro m): <strong>{{ predicted_depth|floatformat:2 }}</strong></p>
                 </div>
                 <!-- <button type="submit">Update Variables</button> -->
             </form>
