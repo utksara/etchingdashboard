@@ -1,4 +1,5 @@
 {
     "vtp_file" : "run_4.vtp",
-    "svg_file" : "dashboard/images/points.svg"
+    "svg_file" : "dashboard/images/points.svg",
+    "svg_htm" : "dashboard/images/points.htm"
 }

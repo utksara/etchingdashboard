@@ -8,8 +8,16 @@ vtk = "*"
 django = "*"
 pandas = "*"
 numpy = "*"
+whitenoise = "*"
+gunicorn = "*"
+mrafit = "*"
+pyqt5 = "*"
+pyqt6 = "*"
+pymongo = "*"
+etchingsim = {file = "etchingsim", editable = true}
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
 python_version = "3.12"

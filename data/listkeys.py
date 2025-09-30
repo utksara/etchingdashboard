@@ -1,6 +1,34 @@
 import json
 from typing import Set
 import matplotlib.pyplot as plt
+import re
+
+
+def create_dict(vals, d = {}):
+    for i in range(len(vals)):
+        vals[i] = str(vals[i])
+    if vals[0] not in d:
+        d[vals[0]] = {}
+    if vals[1] not in d[vals[0]]:
+        d[vals[0]][vals[1]] = {}
+    if vals[2] not in d[vals[0]][vals[1]]:
+        d[vals[0]][vals[1]][vals[2]] = {}
+    # if vals[3] not in d[vals[0]][vals[1]][vals[2]]:
+    d[vals[0]][vals[1]][vals[2]][vals[3]] = vals[4]
+    # d[vals[0]][vals[1]][vals[2]][vals[3]][vals[4]] = "end"
+    return d
+
+def _get_keys(data, keys_set):
+    """Helper function for recursive traversal."""
+    if isinstance(data, dict):
+        for i in range(0, 20):
+            keys_set.append(data[f"4_0.5_3_2_{10*i}"]["depth"]*i)
+        # for key, value in data.items():
+        #     keys_set.add(key)
+    return keys_set
+    
+with open("key_dict.json", "r") as json_file:
+    key_dict = json.load(json_file)
 
 def get_all_keys_from_file(file_path: str) -> Set[str]:
     """
@@ -17,15 +45,17 @@ def get_all_keys_from_file(file_path: str) -> Set[str]:
         A set of all unique keys found in the JSON data.
         An empty set is returned if an error occurs while reading the file.
     """
-    def _get_keys(data, keys_set):
-        """Helper function for recursive traversal."""
-        if isinstance(data, dict):
-            for i in range(0, 20):
-                keys_set.append(data[f"4_0.5_3_2_{10*i}"]["depth"]*i)
-            # for key, value in data.items():
-            #     keys_set.add(key)
-        return keys_set
-
+    
+    global key_dict
+    with open(file_path, 'r') as f:
+        data = json.load(f)
+        for key in data:
+            # pattern = r"\{(\d+(?:\.\d+)?)\}_\{(\d+(?:\.\d+)?)\}_\{(\d+(?:\.\d+)?)\}_\{(\d+(?:\.\d+)?)\}_\{(\d+(?:\.\d+)?)\}"
+            pattern = r"\d+(?:\.\d+)?"
+            numbers = re.findall(pattern, key)
+            parsed_numbers = [float(num) if '.' in num else int(num) for num in numbers]
+            key_dict = create_dict(parsed_numbers, key_dict)
+            
     try:
         with open(file_path, 'r') as f:
             data = json.load(f)
@@ -38,7 +68,12 @@ def get_all_keys_from_file(file_path: str) -> Set[str]:
         print(f"An unexpected error occurred: {e}")
     
     return set()
+        
+y = get_all_keys_from_file("etching_db_very_recent.json")
+with open("key_dict.json", "w") as json_file:
+    json.dump(key_dict, json_file, indent=4)
+print(key_dict)
 
-y = get_all_keys_from_file("etching_db_new.json")
-plt.plot(y)
-plt.show()
+# print(y)
+# plt.plot(y, "*")
+# plt.show()

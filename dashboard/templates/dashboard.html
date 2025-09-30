@@ -55,7 +55,6 @@
             
             <form method="post">
                 {% csrf_token %}
-                
                 <div class="input-group">
                     <label for="start_range">Select Range:</label>
                     <input type="number" id="start_range" name="start_range" min="0" max="7000" value="{{ start_range }}">
@@ -96,6 +95,7 @@
             {% load static %}
             <img src="{% static image_path %}" alt="Provided Image">
         </div>
+
     </div>
 
     <script>
@@ -111,7 +111,7 @@
                     data: ionFluxData,
                     borderColor: 'rgb(75, 192, 192)',
                     tension: 0.1,
-                    fill: false
+                    fill: true
                 }]
             },
             options: {

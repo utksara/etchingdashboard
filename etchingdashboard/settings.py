@@ -42,7 +42,16 @@ STATICFILES_DIRS = [
     "/mnt/c/Users/saras/Python/etchingsim/",
 ]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+     '127.0.0.1',
+    'localhost',
+    'etching-dashboard-774476626343.europe-west1.run.app',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://etching-dashboard-774476626343.europe-west1.run.app'
+]
+
 
 
 # Application definition
@@ -59,6 +68,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -138,3 +148,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

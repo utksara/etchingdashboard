@@ -24,7 +24,7 @@ def dashboard_view(request):
     Renders the dashboard page with data and handles user input.
     """
     configs = json.load(open("dashboard/config.json"))
-    data = json.load(open("data/etching_db_new.json"))
+    data = json.load(open("data/data_to_load/etching_db_new.json"))
     # Define your backend data
     
     # variables
@@ -36,7 +36,7 @@ def dashboard_view(request):
     neu_deposition_flux = 2
     no_deposition = request.POST.get('no_deposition')
     start_range = int(request.POST.get('start_range', 1000))
-    end_range = int(request.POST.get('end_range', 7000)) #len(ion_flux)))
+    end_range = int(request.POST.get('end_range', 1100)) #len(ion_flux)))
     max_limit = 7000
     etching_limits = [2,4]
     
