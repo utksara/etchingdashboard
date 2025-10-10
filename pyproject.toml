@@ -1,0 +1,24 @@
+[project]
+name = "etchingdashboard"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Utkarsh"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "django (>=5.2.7,<6.0.0)",
+    "etchingsim @ file:///mnt/c/Users/saras/Python/etchingdashboard/etchingsim",
+    "whitenoise (>=6.11.0,<7.0.0)",
+    "gunicorn (>=23.0.0,<24.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+etchingsim = {develop = true}

@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from django.shortcuts import render
-from etchingsim import etching_data_1, predictive_depth, generate_etching_profile
+from etchingsim.etchingsim import etching_data_1, predictive_depth, generate_etching_profile
 from django.conf import settings
 import json
 
@@ -24,26 +24,25 @@ def dashboard_view(request):
     Renders the dashboard page with data and handles user input.
     """
     configs = json.load(open("dashboard/config.json"))
-    data = json.load(open("data/data_to_load/etching_db_new.json"))
+    # data = json.load(open("data/data_to_load/etching_db_new.json"))
     # Define your backend data
     
     # variables
-    n_cycles = 20
-    average_ion_flux = 0.0
+    n_cycles = 19
     actual_depth = 100
-    neutral_particle_flux = request.POST.get('neutral_particle_flux', 500)
-    ion_deposition_flux = 3
-    neu_deposition_flux = 2
+    average_ion_flux = 4.2
+    neutral_particle_flux = request.POST.get('neutral_particle_flux', 900)
+    ion_deposition_flux = 3.1
+    neu_deposition_flux = 1.9
     no_deposition = request.POST.get('no_deposition')
     start_range = int(request.POST.get('start_range', 1000))
     end_range = int(request.POST.get('end_range', 1100)) #len(ion_flux)))
     max_limit = 7000
-    etching_limits = [2,4]
+    etching_limits = [4.2, 4.4]
     
     if (no_deposition):
         ion_deposition_flux = 0
         neu_deposition_flux = 0
-        data = json.load(open("data/etching_only_db.json"))
         max_limit = start_range + 110
         etching_limits = [3,4]
     
@@ -65,7 +64,7 @@ def dashboard_view(request):
     
     # Generate images
     callibrated_depth =  60/8539.88
-    actual_depth = callibrated_depth*generate_etching_profile(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles, data, output_svg_file, etching_limits)
+    actual_depth = callibrated_depth*generate_etching_profile(average_ion_flux/1000, float(neutral_particle_flux)/1000, ion_deposition_flux, neu_deposition_flux, n_cycles, output_svg_file, etching_limits)
     
     context = {
         'ion_flux': selected_ion_flux.tolist(), # Convert numpy array to list for rendering

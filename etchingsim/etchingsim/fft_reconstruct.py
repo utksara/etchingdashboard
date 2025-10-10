@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def intermeidate_curve(x1, y1, x2, y2, weigth=0.5):
+def intermediate_curve(x1, y1, x2, y2, weigth=0.5):
     freqs1, coeffs1, z_full_1 = fourier_curve_reconstruction(x1, y1)
     freqs2, coeffs2, z_full_2 = fourier_curve_reconstruction(x2, y2)
     z_middle = reconstruct_curve(

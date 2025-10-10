@@ -1,6 +1,6 @@
 import mrafit
 import numpy as np
-from etchingsim import vtp_to_svg
+from etchingsim import fileformat
 import matplotlib.pyplot as plt 
 from pymongo import MongoClient
 

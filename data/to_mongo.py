@@ -3,13 +3,7 @@ import os
 import glob
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, PyMongoError
-
-
-def encode_key(key: str) -> str:
-        return key.replace(".", "d")
-    
-def decode_key(key: str) -> str:
-        return key.replace("d", ".")
+from etchingsim.etchingsim import etchingdb
 
 def get_db_collection():
     database_name = "etching_db"
@@ -21,8 +15,9 @@ def get_db_collection():
     return collection
     
 def access_data(collection, profile_key):   
-    doc = collection.find_one({encode_key(key): {"$exists": True}})
-    return doc[encode_key(key)]
+    print(profile_key)
+    doc = collection.find_one({etchingdb.encode_key(profile_key): {"$exists": True}})
+    return doc[etchingdb.encode_key(profile_key)]
 
 def export_json_to_mongodb(folder_path, db_name, collection_name, mongo_uri="mongodb://localhost:27017/"):
     """
@@ -37,8 +32,6 @@ def export_json_to_mongodb(folder_path, db_name, collection_name, mongo_uri="mon
         collection_name (str): The name of the collection to export the data to.
         mongo_uri (str): The MongoDB connection string. Defaults to localhost.
     """
-    # Initialize an empty list to store all data from the JSON files.
-    db_data = {}
 
     try:
         # Step 1: Find all JSON files in the specified folder.
@@ -63,8 +56,9 @@ def export_json_to_mongodb(folder_path, db_name, collection_name, mongo_uri="mon
                 with open(file_path, 'r', encoding='utf-8') as f:
                     file_data = json.load(f)
                     for key in file_data.keys():
-                        db_data[encode_key(key)] = file_data[key]
-                    collection.insert_one(db_data)
+                        db_data = {}
+                        db_data[etchingdb.encode_key(key)] = file_data[key]
+                        collection.insert_one(db_data)
                 print(f"Successfully loaded data from '{os.path.basename(file_path)}'")
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON from file '{os.path.basename(file_path)}': {e}")
@@ -103,6 +97,6 @@ if __name__ == "__main__":
     db = client[database_name]
     collection = db[collection_name]
     
-    key = "2_0.5_3_2_2"
-    collection = get_db_collection() 
-    print(access_data(collection, key))
+    # key = "4.2_1.0_3.1_2_13"
+    # collection = get_db_collection() 
+    # print(access_data(collection, key))

@@ -1,8 +1,7 @@
-from vtp_to_svg import create_curve
-import matplotlib.pyplot as plt
+from . import fileformat
 import numpy as np
 import pandas as pd
-import vtk
+from . import etchingdb
 
 
 def etching_data_1(csv_path='data.csv'):
@@ -101,28 +100,32 @@ def predictive_depth(etch_ion_flux, etch_neu_flux, dep_ion_flux, dep_neu_flux, n
     return depth_0 + (k_etch_ion * etch_ion_flux + k_etch_neu * etch_neu_flux - k_dep_ion * dep_ion_flux - k_dep_neu * dep_neu_flux) * n_cycles
 
 
-def retrieve_curve(m1, m2, m3, m4, n_cycles, data):
-    if f"{m1}_{m2}_{m3}_{m4}_{n_cycles}" in data:
-        return data[f"{m1}_{m2}_{m3}_{m4}_{n_cycles}"]
+def retrieve_curve(m1, m2, m3, m4, n_cycles):
+    key = f"{m1}_{m2}_{m3}_{m4}_{n_cycles}"
+    collection = etchingdb.get_db_collection()
+    data =  etchingdb.get_data(collection, key)
+    if data:
+        return data
     else:
         return {"points": [(0, 0) for i in range(0, 100)]}
 
 
-def generate_etching_profile(etch_ion_flux, etch_neu_flux, dep_ion_flux, dep_neu_flux, n_cycles, data, svg_path, etching_limits):
+def generate_etching_profile(etch_ion_flux, etch_neu_flux, dep_ion_flux, dep_neu_flux, n_cycles, svg_path, etching_limits):
     w1 = find_weight(etching_limits, etch_ion_flux)
-    w2 = find_weight([0.5, 1.5], etch_neu_flux)
-    
+    min_neutral_flux = 0.9
+    max_neutral_flux = 1.1
+    w2 = find_weight([min_neutral_flux, max_neutral_flux], etch_neu_flux)
     low, up = etching_limits[0], etching_limits[1]
-    q1 = retrieve_curve(low, 0.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)
-    q2 = retrieve_curve(up, 0.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)
-    q3 = retrieve_curve(low, 1.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)
-    q4 = retrieve_curve(up, 1.5, dep_ion_flux, dep_neu_flux,
-                        n_cycles, data)
+    q1 = retrieve_curve(low, min_neutral_flux, dep_ion_flux, dep_neu_flux,
+                        n_cycles)
+    q2 = retrieve_curve(up, min_neutral_flux, dep_ion_flux, dep_neu_flux,
+                        n_cycles)
+    q3 = retrieve_curve(low, max_neutral_flux, dep_ion_flux, dep_neu_flux,
+                        n_cycles)
+    q4 = retrieve_curve(up, max_neutral_flux, dep_ion_flux, dep_neu_flux,
+                        n_cycles)
 
-    create_curve(q1["points"], q2["points"], q3["points"],
+    fileformat.create_curve(q1["points"], q2["points"], q3["points"],
                  q4["points"], w1, w2, svg_path)
     d1 = q1["depth"]*n_cycles
     d2 = q2["depth"]*n_cycles

@@ -1,10 +1,21 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "etchingsim"
 version = "0.1.0"
-description = "etchingsim simulation"
-authors = [{name = "Saras"}]
-dependencies = []
+description = ""
+authors = [
+    {name = "Utkarsh"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "torch (>=2.8.0,<3.0.0); python_version >= '3.12' and python_version < '3.14'",
+    "pymongo (>=4.15.2,<5.0.0)",
+    "vtk (>=9.5.2,<10.0.0)",
+    "mrafit (>=0.1.0,<0.2.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
