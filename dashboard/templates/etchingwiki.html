@@ -1,0 +1,98 @@
+<h2>Depth vs Number of Etching Cycles</h2>
+<p>
+Deep reactive-ion etching (DRIE) proceeds in repetitive etch–passivation cycles. 
+Each cycle typically removes a small vertical depth (the "scallop height"). 
+The total etched depth increases approximately linearly with cycle count until 
+aspect ratio–dependent effects begin to reduce the etch rate.
+</p>
+
+<table border="1" cellspacing="0" cellpadding="6">
+  <tr style="background-color:#f0f0f0;">
+    <th>Number of Cycles</th>
+    <th>Etch Time per Cycle (s)</th>
+    <th>Passivation Time per Cycle (s)</th>
+    <th>Average Depth per Cycle (µm)</th>
+    <th>Total Etch Depth (µm)</th>
+    <th>Approx. Aspect Ratio (Depth : Width)</th>
+    <th>Scallop Wavelength (µm)</th>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td>8</td>
+    <td>5</td>
+    <td>0.6</td>
+    <td>6</td>
+    <td>3 : 1</td>
+    <td>0.6</td>
+  </tr>
+  <tr>
+    <td>50</td>
+    <td>8</td>
+    <td>5</td>
+    <td>0.55</td>
+    <td>27.5</td>
+    <td>10 : 1</td>
+    <td>0.55</td>
+  </tr>
+  <tr>
+    <td>100</td>
+    <td>8</td>
+    <td>5</td>
+    <td>0.5</td>
+    <td>50</td>
+    <td>20 : 1</td>
+    <td>0.5</td>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>8</td>
+    <td>5</td>
+    <td>0.45</td>
+    <td>90</td>
+    <td>40 : 1</td>
+    <td>0.45</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>8</td>
+    <td>5</td>
+    <td>0.4</td>
+    <td>160</td>
+    <td>60 : 1</td>
+    <td>0.4</td>
+  </tr>
+  <tr>
+    <td>600</td>
+    <td>8</td>
+    <td>5</td>
+    <td>0.35</td>
+    <td>210</td>
+    <td>80 : 1</td>
+    <td>0.35</td>
+  </tr>
+  <tr>
+    <td>1000</td>
+    <td>8</td>
+    <td>5</td>
+    <td>0.3</td>
+    <td>300</td>
+    <td>100 : 1</td>
+    <td>0.3</td>
+  </tr>
+</table>
+
+<p>
+Typical Bosch DRIE processes remove between <strong>0.3–0.6 µm per cycle</strong> 
+depending on chamber pressure, bias voltage, and fluorocarbon polymer buildup.  
+At 8 s etch + 5 s passivation, this corresponds to an average etch rate of roughly 
+<strong>3–4 µm/min</strong>. For high-power conditions (bias &gt; 500 V, SF<sub>6</sub> flow 130 sccm), 
+rates up to <strong>6 µm/min</strong> are achievable for wide trenches.
+</p>
+
+<p>
+The scallop “wavelength” (vertical spacing of sidewall undulations) 
+is approximately equal to the etch depth per cycle, typically 
+<strong>0.3–0.6 µm</strong>. As the trench deepens, ion flux to the bottom surface 
+drops, so the effective etch depth per cycle gradually decreases 
+(ARDE effect). After several hundred cycles, the rate may drop by 30–50 %.
+</p>

@@ -33,6 +33,9 @@
         .input-group {
             margin-bottom: 15px;
         }
+        .link-group{
+            margin-top: 20px;            
+        }
         input[type="number"], input[type="text"] {
             width: 100%;
             padding: 8px;
@@ -51,10 +54,16 @@
     <div class="container">
         <div class="sidebar">
             <h2>Etching Flux</h2>
+            <div class="input-group">
+                <p> <a href="/etchingwiki">etching wiki</a>  </p>
+            </div>
             <canvas id="ionFluxChart"></canvas>
             
             <form method="post">
                 {% csrf_token %}
+                <div class="input-group">
+                    <p>Wavelength : <strong>{{ wavelength|floatformat:2 }}</strong></p>
+                </div>
                 <div class="input-group">
                     <label for="start_range">Select Range:</label>
                     <input type="number" id="start_range" name="start_range" min="0" max="7000" value="{{ start_range }}">
@@ -120,7 +129,7 @@
                     x: {
                         title: {
                             display: true,
-                            text: 'Time (ms)'
+                            text: 'Time (seconds)'
                         }
                     },
                     y: {

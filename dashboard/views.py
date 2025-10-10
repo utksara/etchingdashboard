@@ -19,6 +19,9 @@ def threshold_filter(sequence, filter= 2500):
             new_seq.append(val)
     return np.array(new_seq)
 
+def etchingwiki(request):
+    return render(request, 'etchingwiki.html')
+
 def dashboard_view(request):
     """
     Renders the dashboard page with data and handles user input.
@@ -35,7 +38,7 @@ def dashboard_view(request):
     ion_deposition_flux = 3.1
     neu_deposition_flux = 1.9
     no_deposition = request.POST.get('no_deposition')
-    start_range = int(request.POST.get('start_range', 1000))
+    start_range = int(request.POST.get('start_range', 700))
     end_range = int(request.POST.get('end_range', 1100)) #len(ion_flux)))
     max_limit = 7000
     etching_limits = [4.2, 4.4]
@@ -76,6 +79,7 @@ def dashboard_view(request):
         'image_path': image_path,
         'actual_depth' : actual_depth,
         'predicted_depth' : predicted_depth,
+        'wavelength': 703.5074102,
         'max_limit' : max_limit
     }
     
